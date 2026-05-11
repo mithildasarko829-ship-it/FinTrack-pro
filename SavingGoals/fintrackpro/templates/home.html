@@ -1,27 +1,98 @@
-<h1>Choose your goal</h1>
-<a href="{% url 'create_savinggoals' %}">Add a new SavingGoal</a>
-<hr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Saving Goal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #1a1a1a;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        /* Django form field styling */
+        p {
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
 
-{% for s in save %}
-    <div>
-        <h3>{{ s.goal_name }}</h3>
-        <p>Target: {{ s.target_amount }} | Saved: {{ s.current_amount }}</p>
+<div class="form-container">
+    <h2>Create Your New Saving Goal</h2>
 
-        <form action="{% url 'add_money' s.id %}" method="POST">
-            {% csrf_token %}
-            <input type="number" name="amount_to_add" placeholder="Amount" required>
-            <button type="submit">Add Money</button>
-        </form>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            {{ form.as_p }}
+        </div>
+        <button type="submit">Save Goal</button>
+    </form>
 
-        <br>
+    <a href="{% url 'home' %}" class="back-link">Cancel and Back to Home</a>
+</div>
 
-        <a href="{% url 'delete_goal' s.id %}" style="color: red;">Delete Goal</a>
-
-        {% if s.is_finished %}
-            <p><b>Status: Goal Completed</b></p>
-        {% endif %}
-    </div>
-    <hr>
-{% empty %}
-    <p>No goals found.</p>
-{% endfor %}
+</body>
+</html>
